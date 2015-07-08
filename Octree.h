@@ -19,6 +19,7 @@ namespace brandonpelfrey {
 		// The tree has up to eight children and can additionally store
 		// a point, though in many applications only, the leaves will store data.
 		Octree *children[8]; //! Pointers to child octants
+// only leaf node will save data. Interior point will not
 		OctreePoint *data;   //! Data point to be stored at a node
 
 		/*
@@ -52,6 +53,7 @@ namespace brandonpelfrey {
 		// Determine which octant of the tree would contain 'point'
 		int getOctantContainingPoint(const Vec3& point) const {
 			int oct = 0;
+// here the logic is, 0 to 7  can be represented by 3 bits, from left  to right, the first is  x, the second is y and the third is z
 			if(point.x >= origin.x) oct |= 4;
 			if(point.y >= origin.y) oct |= 2;
 			if(point.z >= origin.z) oct |= 1;
@@ -117,6 +119,7 @@ namespace brandonpelfrey {
 		// This is a really simple routine for querying the tree for points
 		// within a bounding box defined by min/max points (bmin, bmax)
 		// All results are pushed into 'results'
+// here use reference such that results will not get multiple coies during the recurrsion
 		void getPointsInsideBox(const Vec3& bmin, const Vec3& bmax, std::vector<OctreePoint*>& results) {
 			// If we're at a leaf node, just see if the current data point is inside
 			// the query bounding box
